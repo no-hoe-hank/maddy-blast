@@ -542,7 +542,7 @@
           <div class="side">
             <img class="mas" alt="" />
             <div class="card"><span>Hits</span><b id="sh">0</b></div>
-            <div class="card hi"><span>Best hits</span><b id="sbh">0</b></div>
+            <div class="card hi"><span>Your best hits</span><b id="sbh">0</b></div>
             <div class="card lbc">
               <span id="lbh">Leaderboard</span>
               <ol id="lb"></ol>
@@ -572,8 +572,8 @@
                 <img id="oi" alt="" />
                 <h1 id="t">Maddy Blast</h1>
                 <p id="d">
-                  Drag to aim, let go to fire. break every maddy before it
-                  reaches the floor. Catch the +1 orbs for more balls.
+                  Drag to aim, let go to fire. Break every maddy before it
+                  reaches the floor. Catch the +1 orbs for more balls. Good luck...
                 </p>
                 <input
                   id="nm"
@@ -969,7 +969,7 @@
             bricks.push({ c, r: 0, y: -CS, t: "ball" });
             continue;
           }
-          if (Math.random() < 0.48) {
+          if (Math.random() < 0.52) {
             any = true;
             const hp = Math.random() < 0.18 ? level * 2 : level;
             bricks.push({ c, r: 0, y: -CS, t: "b", hp, fl: 0 });
