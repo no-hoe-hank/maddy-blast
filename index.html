@@ -785,20 +785,22 @@
         nm = document.getElementById("nm");
       function renderLB() {
         const all = {};
-        for (const [k, r] of Object.entries(scores)) all[k] = { ...r };
-        for (const [k, r] of Object.entries(remote)) {
-          if (!r || typeof r.h != "number") continue;
-          const o = all[k],
-            t = +r.t || 0,
-            b = +r.b || 1;
-          all[k] = o
+        // Local and Firebase copies can have different database keys; merge by player name.
+        for (const r of [...Object.values(scores), ...Object.values(remote)]) {
+          if (!r || typeof r.n !== "string") continue;
+          const id = key(r.n),
+            old = all[id],
+            t = Number(r.t) || 0,
+            b = Number(r.b) || 1,
+            h = Number(r.h) || 0;
+          all[id] = old
             ? {
-                n: String(r.n || o.n).slice(0, 12),
-                t: Math.max(o.t, t),
-                b: Math.max(o.b, b),
-                h: Math.max(o.h, r.h),
+                n: old.n || r.n,
+                t: Math.max(old.t, t),
+                b: Math.max(old.b, b),
+                h: Math.max(old.h, h),
               }
-            : { n: String(r.n).slice(0, 12), t, b, h: r.h };
+            : { n: r.n.slice(0, 12), t, b, h };
         }
         const ranked = Object.values(all)
             .sort((a, b) => b.h - a.h || b.t - a.t)
