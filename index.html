@@ -122,7 +122,7 @@ function addRow(){
  const pc=Math.floor(Math.random()*C);let any=false;
  for(let c=0;c<C;c++){
   if(c==pc){bricks.push({c,r:0,y:-CS,t:'ball'});continue}
-  if(Math.random()<.58){any=true;const hp=Math.random()<.18?level*2:level;bricks.push({c,r:0,y:-CS,t:'b',hp,fl:0})}
+  if(Math.random()<.48){any=true;const hp=Math.random()<.18?level*2:level;bricks.push({c,r:0,y:-CS,t:'b',hp,fl:0})}
  }
  if(!any){const c=(pc+1)%C;bricks.push({c,r:0,y:-CS,t:'b',hp:level,fl:0})}
 }
