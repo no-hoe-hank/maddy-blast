@@ -30,6 +30,7 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:
 #lb li::before{content:counter(n) ".";opacity:.55;min-width:1.2em}
 #lb li span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #lb li.me{color:#ffd166}
+#lb li b{font:700 14px system-ui,sans-serif;color:inherit}
 #lb li.none::before{content:""}
 #nm{font:600 max(18px,4.4cqw) system-ui,sans-serif;text-align:center;width:min(70%,16em);box-sizing:border-box;padding:.5em .8em;border-radius:12px;border:3px solid var(--cream);background:#2d1a38;color:var(--cream);outline:none}
 #nm:focus{border-color:#ffd166}
@@ -46,10 +47,11 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:
 #tbox{display:flex;gap:6px}
 .narrow .tools{position:static}
 .narrow .tools button{width:34px;height:34px;font-size:15px}
-#lb2{list-style:none;counter-reset:n;margin:0;padding:0;display:flex;gap:12px;flex:1;min-width:0;font-size:13px}
-#lb2 li{display:flex;gap:4px;flex:1;min-width:0;counter-increment:n}
+#lb2{list-style:none;counter-reset:n;margin:0;padding:0;display:flex;gap:16px;flex:1;min-width:0;font-size:13px;overflow-x:auto;scrollbar-width:none}
+#lb2::-webkit-scrollbar{display:none}
+#lb2 li{display:flex;gap:4px;flex:none;white-space:nowrap;counter-increment:n}
 #lb2 li::before{content:counter(n) ".";opacity:.55}
-#lb2 li span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#lb2 li span{white-space:nowrap}
 #lb2 li.me{color:#ffd166}
 #lb2 li.none::before{content:""}
 .short .mas{display:none}
@@ -59,6 +61,21 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:
 .short #lb{font-size:12px}
 #lbo{display:none}
 @media (max-height:520px){#ov img{display:none}#ov{gap:10px}}
+.lnk{width:100%;margin-top:8px;padding:5px 10px;border-radius:8px;border:1px solid var(--cream);background:none;color:var(--cream);font-size:13px;cursor:pointer}
+.lnk:hover{background:var(--red)}
+.ib{flex:none;background:none;border:0;font-size:20px;padding:0;cursor:pointer}
+#ov.kb img,#ov.kb p{display:none}
+#lbm{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;background:rgba(10,5,15,.72)}
+#lbm[hidden]{display:none}
+.mb{width:min(480px,100%);max-height:100%;display:flex;flex-direction:column;background:var(--board);color:var(--cream);border-radius:14px;box-shadow:0 0 0 3px var(--red)}
+.mh{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font:400 26px Impact,"Arial Black",sans-serif;letter-spacing:.03em}
+.mh button{width:38px;height:38px;border-radius:50%;border:2px solid var(--cream);background:#2d1a38;color:var(--cream);font-size:16px;cursor:pointer;padding:0}
+.ms{overflow:auto;padding:0 16px 14px}
+#lbt{width:100%;border-collapse:collapse;font-size:15px}
+#lbt th{position:sticky;top:0;background:var(--board);text-align:left;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#c9b8cf;padding:6px 4px}
+#lbt td{padding:7px 4px;border-top:1px solid rgba(255,255,255,.08)}
+#lbt td:first-child{opacity:.6;width:2em}
+#lbt tr.me td{color:#ffd166}
 canvas{display:block;width:100%;height:100%;touch-action:none}
 .tools{position:absolute;top:9px;right:9px;display:flex;gap:8px}
 .tools button{width:40px;height:40px;border-radius:50%;border:2px solid var(--cream);background:#2d1a38;color:var(--cream);font-size:18px;cursor:pointer;padding:0}
@@ -75,16 +92,17 @@ button:focus-visible{outline:3px solid #ffd166;outline-offset:2px}
 </head>
 <body>
 <div id="app"><div id="stage"><div id="wrap">
-<div class="side"><img class="mas" alt=""><div class="card"><span>Hits</span><b id="sh">0</b></div><div class="card hi"><span>Best hits</span><b id="sbh">0</b></div><div class="card lbc"><span id="lbh">Leaderboard</span><ol id="lb"></ol></div></div>
+<div class="side"><img class="mas" alt=""><div class="card"><span>Hits</span><b id="sh">0</b></div><div class="card hi"><span>Best hits</span><b id="sbh">0</b></div><div class="card lbc"><span id="lbh">Leaderboard</span><ol id="lb"></ol><button id="lbx" class="lnk">Expand ⤢</button></div></div>
 <div id="mid"><div id="bar"><img class="mini" alt=""><div class="stats"><span>Hits <b id="mh">0</b></span><span>Balls <b id="mb">1</b></span><span>Best <b id="mbh">0</b></span></div><div id="tbox"></div></div>
 <div id="g">
 <canvas id="cv" width="1404" height="1620"></canvas>
 <div class="tools"><button id="ff" title="Fast forward" aria-label="Fast forward">⏩</button><button id="snd" class="on" title="Sound" aria-label="Sound">🔊</button></div>
 <div id="ov"><img id="oi" alt=""><h1 id="t">Maddy Blast</h1><p id="d">Drag to aim, let go to fire. break every maddy before it reaches the floor. Catch the +1 orbs for more balls.</p><input id="nm" maxlength="12" placeholder="Your name" autocomplete="off" aria-label="Your name"><button id="go">Play</button><p id="lbo"></p></div>
 </div>
-<div id="strip"><span>🏆</span><ol id="lb2"></ol></div></div>
+<div id="strip"><button id="lbtn" class="ib" aria-label="Show full leaderboard">🏆</button><ol id="lb2"></ol></div></div>
 <div class="side"><img class="mas flip" alt=""><div class="card"><span>Balls</span><b id="sb">1</b></div><div class="card hi"><span>Best balls</span><b id="sbb">1</b></div></div>
 </div></div></div>
+<div id="lbm" hidden><div class="mb"><div class="mh"><span>Leaderboard</span><button id="lbc" aria-label="Close">✕</button></div><div class="ms"><table id="lbt"><thead><tr><th>#</th><th>Name</th><th>Hits</th><th>Balls</th><th>Turns</th></tr></thead><tbody></tbody></table></div></div></div>
 <script>
 // ---- Online leaderboard (Firebase Realtime Database, free Spark plan) ----
 // Paste your database URL below, e.g. https://my-game-default-rtdb.firebaseio.com
@@ -101,10 +119,15 @@ const DB=DB_URL.trim().replace(/\/$/,''),ONLINE=/^https:\/\/[^\/]+\.(firebaseio\
 let remote={},remoteOK=false,lastPush='',busy=false;
 function key(n){return n.toLowerCase().replace(/[.$#\[\]\/\u0000-\u001f]/g,'_').slice(0,12)}
 function rec(){return scores[key(player)]||{n:player,t:0,b:1,h:0}}
+function renderModal(rows){
+ const trs=rows.map((r,i)=>{const tr=document.createElement('tr');if(key(r.n)==key(player))tr.className='me';
+  [i+1,r.n,r.h,r.b,r.t].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.append(td)});return tr});
+ if(!trs.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=5;td.textContent='No scores yet';tr.append(td);trs.push(tr)}
+ lbt.replaceChildren(...trs)}
 async function tf(path,opt){const c=new AbortController(),t=setTimeout(()=>c.abort(),5000);
  try{const r=await fetch(DB+path,{...opt,signal:c.signal});if(!r.ok)throw 0;return await r.json()}finally{clearTimeout(t)}}
 async function loadTop(){if(!ONLINE)return;
- try{remote=(await tf('/scores.json?orderBy=%22h%22&limitToLast=5'))||{};remoteOK=true}catch(e){remoteOK=false}renderLB()}
+ try{remote=(await tf('/scores.json?orderBy=%22h%22&limitToLast=50'))||{};remoteOK=true}catch(e){remoteOK=false}renderLB()}
 async function push(){if(!ONLINE||!player)return;const r=scores[key(player)];if(!r)return;
  const body=JSON.stringify({n:r.n,t:r.t,b:r.b,h:r.h});if(body===lastPush)return;lastPush=body;
  try{await tf('/scores/'+encodeURIComponent(key(player))+'.json',{method:'PUT',body});loadTop()}catch(e){lastPush=''}}
@@ -112,17 +135,17 @@ async function sync(){if(!ONLINE)return;
  try{const r=await tf('/scores/'+encodeURIComponent(key(player))+'.json');
   if(r&&typeof r.h=='number'){const o=rec();scores[key(player)]={n:player,t:Math.max(o.t,+r.t||0),b:Math.max(o.b,+r.b||1),h:Math.max(o.h,+r.h||0)}}}catch(e){}
  loadTop()}
-const lb2=document.getElementById('lb2'),lbEl=document.getElementById('lb'),lbo=document.getElementById('lbo'),nm=document.getElementById('nm');
+const lbt=document.querySelector('#lbt tbody'),lbm=document.getElementById('lbm'),lb2=document.getElementById('lb2'),lbEl=document.getElementById('lb'),lbo=document.getElementById('lbo'),nm=document.getElementById('nm');
 function renderLB(){
  const all={};for(const [k,r] of Object.entries(scores))all[k]={...r};
  for(const [k,r] of Object.entries(remote)){if(!r||typeof r.h!='number')continue;const o=all[k],t=+r.t||0,b=+r.b||1;
   all[k]=o?{n:String(r.n||o.n).slice(0,12),t:Math.max(o.t,t),b:Math.max(o.b,b),h:Math.max(o.h,r.h)}:{n:String(r.n).slice(0,12),t,b,h:r.h}}
- const top=Object.values(all).sort((a,b)=>b.h-a.h||b.t-a.t).slice(0,5);
+ const ranked=Object.values(all).sort((a,b)=>b.h-a.h||b.t-a.t).slice(0,50),top=ranked.slice(0,5);
  document.getElementById('lbh').textContent=!ONLINE?'Leaderboard (this device)':remoteOK?'Leaderboard':'Leaderboard (offline)';
  const mk=r=>{const li=document.createElement('li'),a=document.createElement('span'),b=document.createElement('b');
   if(key(r.n)==key(player))li.className='me';a.textContent=r.n;b.textContent=r.h;li.append(a,b);return li};
  const items=top.map(mk);
- lb2.replaceChildren(...top.slice(0,3).map(mk));
+ lb2.replaceChildren(...ranked.map(mk));renderModal(ranked);
  if(!items.length){const li=document.createElement('li');li.className='none';li.textContent='No scores yet';items.push(li)}
  lbEl.replaceChildren(...items);if(!top.length)lb2.replaceChildren(items[0].cloneNode(true));
  lbo.textContent=top.length?'Top hits: '+top.map(r=>r.n+' '+r.h).join(' · '):'';
@@ -135,16 +158,18 @@ function saveBest(){bestBalls=Math.max(bestBalls,total);bestHits=Math.max(bestHi
  renderLB();push()}
 const wrap=document.getElementById('wrap'),bar=document.getElementById('bar'),strip=document.getElementById('strip'),tools=document.querySelector('.tools'),tbox=document.getElementById('tbox'),ov=document.getElementById('ov');
 let init=false;
-function wideNow(){const a=stage.clientWidth,b=stage.clientHeight;return a>=600&&a>=b*1.2}
+let vw=0,vh=0;
+function dims(){if(!(document.activeElement===nm&&vw)){vw=stage.clientWidth;vh=stage.clientHeight}return[vw,vh]}
+function wideNow(){const[a,b]=dims();return a>=600&&a>=b*1.2}
 function layout(){
- const sw=stage.clientWidth,sh=stage.clientHeight;isWide=wideNow();
+ const[sw,sh]=dims();isWide=wideNow();
  if(isWide){if(sh<520){C=11;R=6}else{C=9;R=8}}
  else{C=7;R=Math.max(7,Math.min(12,Math.floor(((sh-104)/(sw/(C*CS))-TOP-66)/CS)))}
  W=C*CS;FLOOR=TOP+R*CS;LY=FLOOR+16;H=LY+50;
  cv.width=W*3;cv.height=H*3;ctx.setTransform(3,0,0,3,0,0)}
 function fit(){
  if(init&&!ov.classList.contains('hide')){layout();reset()}
- const sw0=stage.clientWidth,sh=stage.clientHeight,wide=wideNow(),sd=wide?Math.min(230,sw0*.2,sh*.34):0;
+ const[sw0,sh]=dims(),wide=wideNow(),sd=wide?Math.min(230,sw0*.2,sh*.34):0;
  wrap.classList.toggle('wide',wide);wrap.classList.toggle('narrow',!wide);wrap.classList.toggle('short',wide&&sh<520);
  const tp=wide?g:tbox;if(tools.parentNode!==tp)tp.insertBefore(tools,wide?ov:null);
  document.querySelectorAll('.side').forEach(e=>e.style.width=sd+'px');
@@ -257,7 +282,7 @@ function draw(){
  ctx.font='600 12px system-ui,sans-serif';ctx.fillStyle='#c9b8cf';ctx.fillText('Best '+best+'   Balls '+total+'   Hits '+hits,14,48);upd();
 }
 let last=0,acc=0;
-function loop(t){acc+=Math.min(t-last,100);last=t;while(acc>=16.67){acc-=16.67;for(let i=0;i<(ff?3:1);i++)step()}draw();requestAnimationFrame(loop)}
+function loop(t){acc+=Math.min(t-last,100);last=t;while(acc>=16.67){acc-=16.67;for(let i=0;i<(ff?3:1);i++)step()}draw();marq();requestAnimationFrame(loop)}
 function pt(e){const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*W,y:(e.clientY-r.top)/r.height*H}}
 function aimAt(e){const p=pt(e),dx=p.x-lx,dy=p.y-LY;aimOK=dy<-12;
  if(aimOK){ang=Math.max(-Math.PI+.12,Math.min(-.12,Math.atan2(dy,dx)))}}
@@ -275,12 +300,27 @@ async function begin(){
  busy=true;const go=document.getElementById('go');go.disabled=true;
  if(!ac){try{ac=new(window.AudioContext||window.webkitAudioContext)()}catch(x){}}
  player=n;try{localStorage.setItem('rb_player',n)}catch(e){}
- nm.blur();await sync();await new Promise(r=>setTimeout(r,220));layout();fit();
+ const full=vh;nm.blur();await sync();
+ for(let i=0;i<14&&stage.clientHeight<full-20;i++)await new Promise(r=>setTimeout(r,50));
+ layout();fit();
  const r=rec();best=r.t;bestBalls=r.b;bestHits=r.h;
  reset();renderLB();document.getElementById('ov').classList.add('hide');go.disabled=false;busy=false}
 document.getElementById('go').onclick=begin;
 nm.addEventListener('keydown',e=>{if(e.key=='Enter')begin()});
 nm.addEventListener('input',()=>nm.classList.remove('err'));
+nm.addEventListener('focus',()=>ov.classList.add('kb'));
+nm.addEventListener('blur',()=>{ov.classList.remove('kb');setTimeout(fit,300)});
+function openLB(){lbm.hidden=false;loadTop();document.getElementById('lbc').focus()}
+function closeLB(){lbm.hidden=true}
+document.getElementById('lbx').onclick=openLB;document.getElementById('lbtn').onclick=openLB;document.getElementById('lbc').onclick=closeLB;
+lbm.addEventListener('click',e=>{if(e.target===lbm)closeLB()});
+addEventListener('keydown',e=>{if(e.key=='Escape')closeLB()});
+let hold=0,mpos=0,mdir=1;const still=matchMedia('(prefers-reduced-motion:reduce)').matches;
+['pointerdown','wheel','touchstart'].forEach(ev=>lb2.addEventListener(ev,()=>{hold=performance.now()+5000},{passive:true}));
+function marq(){if(still||lb2.scrollWidth<=lb2.clientWidth+2)return;
+ if(performance.now()<hold){mpos=lb2.scrollLeft;return}
+ mpos+=.5*mdir;if(mpos<=0){mpos=0;mdir=1}else if(mpos>=lb2.scrollWidth-lb2.clientWidth){mpos=lb2.scrollWidth-lb2.clientWidth;mdir=-1}
+ lb2.scrollLeft=mpos}
 nm.value=player;renderLB();loadTop();init=true;setInterval(()=>{if(!document.hidden)loadTop()},30000);
 reset();requestAnimationFrame(loop);
 </script>
